@@ -6,6 +6,7 @@ import android.widget.TextView;
 
 import org.springframework.web.client.RestTemplate;
 import org.springframework.http.converter.StringHttpMessageConverter;
+import org.springframework.http.converter.json.GsonHttpMessageConverter;
 
 public class newsweb extends Activity
 {
@@ -16,10 +17,10 @@ public class newsweb extends Activity
         super.onCreate(savedInstanceState);
         String url = "http://hknewsweb.herokuapp.com/api/apple/sections";
         RestTemplate restTemplate = new RestTemplate();
-        restTemplate.getMessageConverters().add(new StringHttpMessageConverter());
-        String result = restTemplate.getForObject(url, String.class);
+        restTemplate.getMessageConverters().add(new GsonHttpMessageConverter());
+        SectionModel []  sections = restTemplate.getForObject(url, SectionModel[].class);
         setContentView(R.layout.main);
         TextView tv = (TextView) findViewById(R.id.text);
-        tv.setText(result);
+        tv.setText(sections[0].getLink());
     }
 }
